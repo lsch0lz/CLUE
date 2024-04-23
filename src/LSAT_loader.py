@@ -1,5 +1,7 @@
 from __future__ import division
 import os
+import urllib.request
+
 import numpy as np
 import pandas as pd
 try:
@@ -18,7 +20,8 @@ def check_data_file(fdir):
         try:
             response = urllib2.urlopen(addr)
         except:
-            response = urllib3.urlopen(addr)
+            with urllib.request.urlopen("http://www.python.org") as url:
+                response = url.read()
         data = response.read()
         fileOut = open(fname, "w")
         fileOut.write(data)
@@ -75,7 +78,7 @@ def get_my_LSAT(save_dir='../data/'):
     df = pd.read_csv(test_file)
     data_test = df.to_dict('list')
 
-    keys = data_train.keys()
+    keys = list(data_train.keys())
 
     # I reorder the keys so they make a little bit more sense
 
